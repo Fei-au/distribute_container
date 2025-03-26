@@ -69,4 +69,3 @@ def update_order(request):
     cache.set(uid, data)
     send_email.delay(uid, f"Order {uid} updated")
     return HttpResponse("Order updated")
-

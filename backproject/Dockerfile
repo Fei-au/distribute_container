@@ -5,7 +5,6 @@ COPY . /app
 WORKDIR /app
 
 RUN pip install -r requirements.txt
-RUN pip install gunicorn
 
 # 声明容器将监听的端口
 EXPOSE 8000
