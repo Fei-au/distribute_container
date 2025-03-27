@@ -3,11 +3,16 @@ services:
     image: feiff/bkproj
     ports:
       - "8000:8000"
+    env_file:
+      - .env
     environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - RABBIT_HOST=rabbitmq
-      - RABBIT_PORT=5672
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - RABBIT_HOST=${RABBIT_HOST}
+      - RABBIT_PORT=${RABBIT_PORT}
+      - PROJECT_ID=${PROJECT_ID}
+      - TOPIC_ID=${TOPIC_ID}
+      - SUBSCRIPTION_ID=${SUBSCRIPTION_ID}
     depends_on:
       redis:
         condition: service_started
@@ -16,14 +21,16 @@ services:
     networks:
       - app-network
 
-  celery_worker:
-    image: feiff/celery_worker
-    command: celery -A backproject worker --loglevel=info
+  subscriber:
+    image: feiff/subscriber
     environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - RABBIT_HOST=rabbitmq
-      - RABBIT_PORT=5672
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - RABBIT_HOST=${RABBIT_HOST}
+      - RABBIT_PORT=${RABBIT_PORT}
+      - PROJECT_ID=${PROJECT_ID}
+      - TOPIC_ID=${TOPIC_ID}
+      - SUBSCRIPTION_ID=${SUBSCRIPTION_ID}
     depends_on:
       web:
         condition: service_started
@@ -33,6 +40,27 @@ services:
         condition: service_healthy
     networks:
       - app-network
+
+  # celery_worker:
+  #   image: feiff/celery_worker
+  #   command: celery -A backproject worker --loglevel=info
+  #   environment:
+  #     - REDIS_HOST=${REDIS_HOST}
+  #     - REDIS_PORT=${REDIS_PORT}
+  #     - RABBIT_HOST=${RABBIT_HOST}
+  #     - RABBIT_PORT=${RABBIT_PORT}
+  #     - PROJECT_ID=${PROJECT_ID}
+  #     - TOPIC_ID=${TOPIC_ID}
+  #     - SUBSCRIPTION_ID=${SUBSCRIPTION_ID}
+  #   depends_on:
+  #     web:
+  #       condition: service_started
+  #     redis:
+  #       condition: service_started
+  #     rabbitmq:
+  #       condition: service_healthy
+  #   networks:
+  #     - app-network
 
   redis:
     image: redis:alpine

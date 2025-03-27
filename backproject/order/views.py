@@ -2,9 +2,14 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.core.cache import cache
 import random
+import os
 from order.tasks import send_email
-# Create your views here.
+from backproject.pub import publish_messages
 
+
+PUBLISHER_ID = os.getenv('PUBLISHER_ID', 'publisher1')
+
+# Create your views here.
 
 def generate_uid():
     return str(random.randint(1000, 9999))
@@ -38,7 +43,8 @@ def add_order(request):
         l = []
     l.append(uid)
     cache.set('order_list', l)
-    send_email.delay(uid, f"Order {uid} added")
+    # send_email.delay(uid, f"Order {uid} added")
+    publish_messages(PUBLISHER_ID, uid, f"Order {uid} added")
     return HttpResponse(f"Order added with ID: {uid}")
 
 def delete_order(request):
@@ -51,7 +57,7 @@ def delete_order(request):
         cache.set('order_list', l)
     else:
         return HttpResponse("Delete order not found")
-    send_email.delay(uid, f"Order {uid} deleted")
+    publish_messages(PUBLISHER_ID, uid, f"Order {uid} deleted")
     return HttpResponse("Order deleted")
 
 def update_order(request):
@@ -67,5 +73,6 @@ def update_order(request):
         'item': item
     }
     cache.set(uid, data)
-    send_email.delay(uid, f"Order {uid} updated")
+    # send_email.delay(uid, f"Order {uid} updated")
+    publish_messages(PUBLISHER_ID, uid, f"Order {uid} updated")
     return HttpResponse("Order updated")
