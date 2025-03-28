@@ -17,7 +17,7 @@ def receive_messages(subscriber_id: str, timeout: float):
         # Pretend to process the message.
         '''
             {
-                data: b'Message number 8'
+                data: b'{"uid": uid, "content": content}'
                 ordering_key: ''
                 attributes: {}
             }

@@ -4,7 +4,7 @@ from django.core.cache import cache
 import random
 import os
 from order.tasks import send_email
-from backproject.pub import publish_messages
+from pubsub.pub import publish_messages
 
 
 PUBLISHER_ID = os.getenv('PUBLISHER_ID', 'publisher1')

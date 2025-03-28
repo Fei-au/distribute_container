@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from backproject.sub import receive_messages
+from pubsub.sub import receive_messages
 
 class Command(BaseCommand):
     help = 'Runs the PubSub subscriber'

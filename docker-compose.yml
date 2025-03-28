@@ -8,16 +8,16 @@ services:
     environment:
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
-      - RABBIT_HOST=${RABBIT_HOST}
-      - RABBIT_PORT=${RABBIT_PORT}
+      # - RABBIT_HOST=${RABBIT_HOST}
+      # - RABBIT_PORT=${RABBIT_PORT}
       - PROJECT_ID=${PROJECT_ID}
       - TOPIC_ID=${TOPIC_ID}
       - SUBSCRIPTION_ID=${SUBSCRIPTION_ID}
     depends_on:
       redis:
         condition: service_started
-      rabbitmq:
-        condition: service_healthy
+      # rabbitmq:
+      #   condition: service_healthy
     networks:
       - app-network
 
@@ -26,8 +26,8 @@ services:
     environment:
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
-      - RABBIT_HOST=${RABBIT_HOST}
-      - RABBIT_PORT=${RABBIT_PORT}
+      # - RABBIT_HOST=${RABBIT_HOST}
+      # - RABBIT_PORT=${RABBIT_PORT}
       - PROJECT_ID=${PROJECT_ID}
       - TOPIC_ID=${TOPIC_ID}
       - SUBSCRIPTION_ID=${SUBSCRIPTION_ID}
@@ -36,8 +36,8 @@ services:
         condition: service_started
       redis:
         condition: service_started
-      rabbitmq:
-        condition: service_healthy
+      # rabbitmq:
+      #   condition: service_healthy
     networks:
       - app-network
 
@@ -72,22 +72,22 @@ services:
       - app-network
     command: redis-server --appendonly yes
 
-  rabbitmq:
-    image: rabbitmq:management
-    ports:
-      - "15672:15672"
-      - "5672:5672"
-    volumes:
-      - rabbitmq-data:/var/lib/rabbitmq
-    networks:
-      - app-network
-    healthcheck:
-      test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
-      interval: 30s
-      timeout: 30s
-      retries: 5
-      start_period: 30s
-    restart: always
+  # rabbitmq:
+  #   image: rabbitmq:management
+  #   ports:
+  #     - "15672:15672"
+  #     - "5672:5672"
+  #   volumes:
+  #     - rabbitmq-data:/var/lib/rabbitmq
+  #   networks:
+  #     - app-network
+  #   healthcheck:
+  #     test: ["CMD", "rabbitmq-diagnostics", "check_port_connectivity"]
+  #     interval: 30s
+  #     timeout: 30s
+  #     retries: 5
+  #     start_period: 30s
+  #   restart: always
 
 networks:
   app-network:
@@ -95,4 +95,4 @@ networks:
 
 volumes:
   redis-data:
-  rabbitmq-data:
+  # rabbitmq-data:

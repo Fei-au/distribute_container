@@ -4,10 +4,11 @@ import json
 import time
 import os
 
+
 project_id = os.environ.get('PROJECT_ID')
 topic_id = os.environ.get('TOPIC_ID')
 subscription_id = os.environ.get('SUBSCRIPTION_ID')
-
+print(project_id)
 def publish_messages(publisher_id: str, uid, content):
     publisher = pubsub_v1.PublisherClient()
     # The `topic_path` method creates a fully qualified identifier
@@ -23,10 +24,10 @@ def publish_messages(publisher_id: str, uid, content):
     data = data_str.encode("utf-8")
     # When you publish a message, the client returns a future.
     future = publisher.publish(topic_path, data)
-    print(future.result())
+    pub_res_id = future.result()
     l = cache.get(publisher_id)
     if l is None:
         l = []
-    l.append(f"published: {data_str} on {topic_path} at {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}")
+    l.append(f"Published {pub_res_id}:  {data_str} on {topic_path} at {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}")
     cache.set(publisher_id, l)
 

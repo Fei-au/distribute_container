@@ -1,2 +1,2 @@
 #!/bin/bash
-/usr/local/bin/supervisord -c /etc/supervisor/subscriber.conf
+/usr/local/bin/supervisord -c /app/subscriber.conf

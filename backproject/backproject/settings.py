@@ -12,10 +12,54 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+import environ
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# 添加打印函数
+def print_env_vars(prefix=""):
+    print(f"\n{prefix} Environment variables:")
+    target_vars = ['REDIS_HOST', 'REDIS_PORT', 'RABBIT_HOST', 'RABBIT_PORT']
+    for key in target_vars:
+        print(f"{key}={os.environ.get(key, 'NOT SET')}")
+    print("-" * 50)
+
+# 打印初始环境变量
+# print_env_vars("Initial")
+
+env = environ.Env()
+IS_DEVELOPMENT = os.getenv("IS_DEVELOPMENT", "True")  # 例如：local 或 production
+# print(f"IS_DEVELOPMENT: {IS_DEVELOPMENT}")
+# print(os.path.join(BASE_DIR, ".env"))
+
+# 强制覆盖选项
+OVERRIDE_ENV = True  # 设置为 True 时强制覆盖已存在的环境变量
+
+if IS_DEVELOPMENT.lower() == "true":
+    # print("read .env")
+    # overwrite=True 将强制覆盖已存在的环境变量
+    environ.Env.read_env(os.path.join(BASE_DIR, ".env"), overwrite=OVERRIDE_ENV)
+    # 打印读取.env后的环境变量
+    # print_env_vars("After reading .env")
+
+PROJECT_ID=env("PROJECT_ID")
+TOPIC_ID=env("TOPIC_ID")
+SUBSCRIPTION_ID=env("SUBSCRIPTION_ID")
+REDIS_HOST=env("REDIS_HOST")
+REDIS_PORT=env("REDIS_PORT")
+RABBIT_HOST=env("RABBIT_HOST")
+RABBIT_PORT=env("RABBIT_PORT")
+# RABBIT_ACCOUNT=env("RABBIT_ACCOUNT")
+# RABBIT_PASSWORD=env("RABBIT_PASSWORD")
+# print(f"REDIS_HOST: {REDIS_HOST}")
+# print(f"REDIS_PORT: {REDIS_PORT}")
+# print(f"RABBIT_HOST: {RABBIT_HOST}")
+# print(f"RABBIT_PORT: {RABBIT_PORT}")
+# print(f"RABBIT_ACCOUNT: {RABBIT_ACCOUNT}")
+# print(f"RABBIT_PASSWORD: {RABBIT_PASSWORD}")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -38,7 +82,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-]
+    "order",
+    "pubsub",
+    ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -123,9 +169,6 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Redis Configuration
-REDIS_HOST = os.environ.get('REDIS_HOST', 'localhost')
-REDIS_PORT = int(os.environ.get('REDIS_PORT', 6379))
 
 CACHES = {
     'default': {
@@ -139,7 +182,7 @@ CACHES = {
 }
 
 # Celery Configuration
-CELERY_BROKER_URL = f'amqp://guest:guest@rabbitmq:5672/'
+CELERY_BROKER_URL = f'amqp://guest:guest@{RABBIT_HOST}:{RABBIT_PORT}/'
 # CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}/1'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
