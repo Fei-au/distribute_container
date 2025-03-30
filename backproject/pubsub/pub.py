@@ -5,9 +5,9 @@ import time
 import os
 
 
-project_id = os.environ.get('PROJECT_ID')
-topic_id = os.environ.get('TOPIC_ID')
-subscription_id = os.environ.get('SUBSCRIPTION_ID')
+project_id = os.getenv('PROJECT_ID')
+topic_id = os.getenv('TOPIC_ID')
+subscription_id = os.getenv('SUBSCRIPTION_ID')
 print(project_id)
 def publish_messages(publisher_id: str, uid, content):
     publisher = pubsub_v1.PublisherClient()

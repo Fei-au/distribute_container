@@ -12,54 +12,45 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-import environ
-import os
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# 添加打印函数
-def print_env_vars(prefix=""):
-    print(f"\n{prefix} Environment variables:")
-    target_vars = ['REDIS_HOST', 'REDIS_PORT', 'RABBIT_HOST', 'RABBIT_PORT']
-    for key in target_vars:
-        print(f"{key}={os.environ.get(key, 'NOT SET')}")
-    print("-" * 50)
+# # 添加打印函数
+# def print_env_vars(prefix=""):
+#     print(f"\n{prefix} Environment variables:")
+#     target_vars = ['REDIS_HOST', 'REDIS_PORT', 'RABBIT_HOST', 'RABBIT_PORT']
+#     for key in target_vars:
+#         print(f"{key}={os.getenv(key, 'NOT SET')}")
+#     print("-" * 50)
 
-# 打印初始环境变量
-# print_env_vars("Initial")
+# # 打印初始环境变量
+# # print_env_vars("Initial")
 
-env = environ.Env()
-IS_DEVELOPMENT = os.getenv("IS_DEVELOPMENT", "True")  # 例如：local 或 production
-# print(f"IS_DEVELOPMENT: {IS_DEVELOPMENT}")
-# print(os.path.join(BASE_DIR, ".env"))
+# env = environ.Env()
+# IS_DEVELOPMENT = os.getenv("IS_DEVELOPMENT", "True")  # 例如：local 或 production
+# # print(f"IS_DEVELOPMENT: {IS_DEVELOPMENT}")
+# # print(os.path.join(BASE_DIR, ".env"))
 
-# 强制覆盖选项
-OVERRIDE_ENV = True  # 设置为 True 时强制覆盖已存在的环境变量
+# # 强制覆盖选项
+# OVERRIDE_ENV = True  # 设置为 True 时强制覆盖已存在的环境变量
 
-if IS_DEVELOPMENT.lower() == "true":
-    # print("read .env")
-    # overwrite=True 将强制覆盖已存在的环境变量
-    environ.Env.read_env(os.path.join(BASE_DIR, ".env"), overwrite=OVERRIDE_ENV)
-    # 打印读取.env后的环境变量
-    # print_env_vars("After reading .env")
+# if IS_DEVELOPMENT.lower() == "true":
+#     # print("read .env")
+#     # overwrite=True 将强制覆盖已存在的环境变量
+#     environ.Env.read_env(os.path.join(BASE_DIR, ".env"), overwrite=OVERRIDE_ENV)
+#     # 打印读取.env后的环境变量
+#     # print_env_vars("After reading .env")
 
-PROJECT_ID=env("PROJECT_ID")
-TOPIC_ID=env("TOPIC_ID")
-SUBSCRIPTION_ID=env("SUBSCRIPTION_ID")
-REDIS_HOST=env("REDIS_HOST")
-REDIS_PORT=env("REDIS_PORT")
-RABBIT_HOST=env("RABBIT_HOST")
-RABBIT_PORT=env("RABBIT_PORT")
-# RABBIT_ACCOUNT=env("RABBIT_ACCOUNT")
-# RABBIT_PASSWORD=env("RABBIT_PASSWORD")
-# print(f"REDIS_HOST: {REDIS_HOST}")
-# print(f"REDIS_PORT: {REDIS_PORT}")
-# print(f"RABBIT_HOST: {RABBIT_HOST}")
-# print(f"RABBIT_PORT: {RABBIT_PORT}")
-# print(f"RABBIT_ACCOUNT: {RABBIT_ACCOUNT}")
-# print(f"RABBIT_PASSWORD: {RABBIT_PASSWORD}")
+PROJECT_ID=os.getenv("PROJECT_ID")
+TOPIC_ID=os.getenv("TOPIC_ID")
+SUBSCRIPTION_ID=os.getenv("SUBSCRIPTION_ID")
+REDIS_HOST=os.getenv("REDIS_HOST")
+REDIS_PORT=os.getenv("REDIS_PORT")
+RABBIT_HOST=os.getenv("RABBIT_HOST")
+RABBIT_PORT=os.getenv("RABBIT_PORT")
+RABBIT_ACCOUNT=os.getenv("RABBIT_ACCOUNT")
+RABBIT_PASSWORD=os.getenv("RABBIT_PASSWORD")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/

@@ -5,9 +5,9 @@ import threading
 
 
 
-project_id = os.environ.get('PROJECT_ID')
-topic_id = os.environ.get('TOPIC_ID')
-subscription_id = os.environ.get('SUBSCRIPTION_ID')
+project_id = os.getenv('PROJECT_ID')
+topic_id = os.getenv('TOPIC_ID')
+subscription_id = os.getenv('SUBSCRIPTION_ID')
 
 def receive_messages(subscriber_id: str, timeout: float):
     subscriber = pubsub_v1.SubscriberClient()
