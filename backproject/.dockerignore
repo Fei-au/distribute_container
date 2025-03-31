@@ -1,5 +1,6 @@
 # Docker相关
 Dockerfile
+Dockerfile.*
 .dockerignore
 docker-compose.yml
 

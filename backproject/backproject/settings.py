@@ -161,6 +161,10 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
+REDIS_HOST=os.getenv("REDIS_HOST")
+REDIS_PORT=os.getenv("REDIS_PORT")
+print(f"REDIS_HOST: {REDIS_HOST}")
+print(f"REDIS_PORT: {REDIS_PORT}")
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
@@ -173,7 +177,7 @@ CACHES = {
 }
 
 # Celery Configuration
-CELERY_BROKER_URL = f'amqp://guest:guest@{RABBIT_HOST}:{RABBIT_PORT}/'
+# CELERY_BROKER_URL = f'amqp://guest:guest@{RABBIT_HOST}:{RABBIT_PORT}/'
 # CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}/1'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
