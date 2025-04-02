@@ -1,15 +1,26 @@
 FROM python:3.11
 
+
+ARG DOCKER_UID=1000
+ARG DOCKER_GID=1000
+
+RUN groupadd -r appuser -g ${DOCKER_GID} && \
+    useradd -r -u ${DOCKER_UID} -g appuser -s /bin/false appuser
+
+
+RUN mkdir -p /var/log/subscriber && \
+chown appuser:appuser /var/log/subscriber
+
 WORKDIR /app
 
-COPY . .
+COPY --chown=appuser:appuser . .
 
 RUN apt-get update && apt-get install -y dos2unix && rm -rf /var/lib/apt/lists/*
 
 RUN pip install -r requirements.txt
 
-COPY subscriber.conf .
-COPY start.sh .
+COPY --chown=appuser:appuser subscriber.conf .
+COPY --chown=appuser:appuser start.sh .
 RUN dos2unix start.sh && chmod +x start.sh
 
 CMD ["/bin/bash", "start.sh"]

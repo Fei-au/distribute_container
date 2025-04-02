@@ -2,6 +2,7 @@ import os
 from google.cloud import pubsub_v1
 from django.core.cache import cache
 import threading
+import json
 
 
 
@@ -26,8 +27,10 @@ def receive_messages(subscriber_id: str, timeout: float):
         l = cache.get(subscriber_id)
         if l is None:
             l = []
+        else:
+            l = json.loads(l)
         l.append(f"subscriber {subscriber_id}, Data: {data}")
-        cache.set(subscriber_id, l)
+        cache.set(subscriber_id, json.dumps(l), 60*60*24)  # 1 day1 (in seconds l)
         message.ack()
 
     streaming_pull_future = subscriber.subscribe(subscription_path, callback=callback)

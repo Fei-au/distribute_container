@@ -28,6 +28,8 @@ def publish_messages(publisher_id: str, uid, content):
     l = cache.get(publisher_id)
     if l is None:
         l = []
+    else:
+        l = json.loads(l)
     l.append(f"Published {pub_res_id}:  {data_str} on {topic_path} at {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}")
-    cache.set(publisher_id, l)
+    cache.set(publisher_id, json.dumps(l), 60*60*24)  # 1 day1 (in seconds)l)
 

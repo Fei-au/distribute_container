@@ -5,6 +5,7 @@ import random
 import os
 from order.tasks import send_email
 from pubsub.pub import publish_messages
+import json
 
 
 PUBLISHER_ID = os.getenv('PUBLISHER_ID', 'publisher1')
@@ -37,12 +38,14 @@ def add_order(request):
         'name': name,
         'item': item
     }
-    cache.set(uid, data)
+    cache.set(uid, json.dumps(data), 60*60*24)
     l = cache.get('order_list')
     if l is None:
         l = []
+    else:
+        l = json.loads(l)
     l.append(uid)
-    cache.set('order_list', l)
+    cache.set('order_list', json.dumps(l), 60*60*24)
     # send_email.delay(uid, f"Order {uid} added")
     publish_messages(PUBLISHER_ID, uid, f"Order {uid} added")
     return HttpResponse(f"Order added with ID: {uid}")
@@ -53,8 +56,9 @@ def delete_order(request):
     cache.delete(uid)
     l = cache.get('order_list')
     if l is not None:
+        l = json.loads(l)
         l.remove(uid)
-        cache.set('order_list', l)
+        cache.set('order_list', json.dumps(l), 60*60*24)
     else:
         return HttpResponse("Delete order not found")
     publish_messages(PUBLISHER_ID, uid, f"Order {uid} deleted")
@@ -66,13 +70,14 @@ def update_order(request):
     old_data = cache.get(uid)
     if old_data is None:
         return HttpResponse("Update order not found")
+    old_data = json.loads(old_data)
     item = request.GET.get('item')
     data = {
         'uid': uid,
         'name': old_data['name'],
         'item': item
     }
-    cache.set(uid, data)
+    cache.set(uid, json.dumps(data), 60*60*24)
     # send_email.delay(uid, f"Order {uid} updated")
     publish_messages(PUBLISHER_ID, uid, f"Order {uid} updated")
     return HttpResponse("Order updated")
