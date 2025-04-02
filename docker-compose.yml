@@ -13,15 +13,20 @@ services:
       - PROJECT_ID=${PROJECT_ID}
       - TOPIC_ID=${TOPIC_ID}
       - SUBSCRIPTION_ID=${SUBSCRIPTION_ID}
-      - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
+
+      # Only for development
+    #   - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
+    # volumes:
+    #   - ./key.json:/app/key.json
+
+
     depends_on:
       redis:
         condition: service_started
       # rabbitmq:
       #   condition: service_healthy
     volumes:
-      - ./var/log/:/app/log
-      - ./key.json:/app/key.json # only use in development
+      - /var/log/gunicorn:/var/log/gunicorn
     networks:
       - app-network
 
@@ -35,10 +40,13 @@ services:
       - PROJECT_ID=${PROJECT_ID}
       - TOPIC_ID=${TOPIC_ID}
       - SUBSCRIPTION_ID=${SUBSCRIPTION_ID}
-      - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
-    
-    volumes:
-      - ./key.json:/app/key.json
+
+        # Only for development
+    #   - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
+    # volumes:
+    #   - ./key.json:/app/key.json
+
+
     depends_on:
       web:
         condition: service_started
@@ -46,6 +54,8 @@ services:
         condition: service_started
       # rabbitmq:
       #   condition: service_healthy
+    volumes:
+      - /var/log/subscriber:/var/log/subscriber
     networks:
       - app-network
 
