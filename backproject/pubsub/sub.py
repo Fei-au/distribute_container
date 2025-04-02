@@ -3,6 +3,9 @@ from google.cloud import pubsub_v1
 from django.core.cache import cache
 import threading
 import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 
@@ -31,10 +34,11 @@ def receive_messages(subscriber_id: str, timeout: float):
             l = json.loads(l)
         l.append(f"subscriber {subscriber_id}, Data: {data}")
         cache.set(subscriber_id, json.dumps(l), 60*60*24)  # 1 day1 (in seconds l)
+        logger.info("Received message successfully")
         message.ack()
 
     streaming_pull_future = subscriber.subscribe(subscription_path, callback=callback)
-    print(f"Subscriber {subscriber_id} listening on {subscription_path}..\n")
+    logger.info(f"Subscriber {subscriber_id} listening on {subscription_path}..\n")
 
     with subscriber:
         try:
