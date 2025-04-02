@@ -20,8 +20,8 @@ services:
       # rabbitmq:
       #   condition: service_healthy
     volumes:
-      - ./webdata:/app/web-data
-      - ./key.json:/app/key.json
+      - ./var/log/:/app/log
+      - ./key.json:/app/key.json # only use in development
     networks:
       - app-network
 

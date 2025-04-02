@@ -1,11 +1,24 @@
 FROM python:3.11-slim
 
+ARG DOCKER_UID=1000
+ARG DOCKER_GID=1000
+
+RUN groupadd -r appuser -g ${DOCKER_GID} && \
+    useradd -r -u ${DOCKER_UID} -g appuser -s /bin/false appuser
+
+
+
+RUN mkdir -p /var/log/gunicorn && \
+    chown appuser:appuser /var/log/gunicorn
+
 WORKDIR /app
 
-COPY . .
+COPY --chown=appuser:appuser . .
 
-
+# 需要root权限安装依赖
 RUN pip install -r requirements.txt
+
+USER appuser
 
 # 声明容器将监听的端口
 EXPOSE 8000
@@ -13,4 +26,4 @@ EXPOSE 8000
 # 修正 gunicorn 命令格式
 
 # CMD ["celery", "-A", "backproject", "worker", "--loglevel=info"]
-CMD ["gunicorn", "--workers=4", "--bind=0.0.0.0:8000", "backproject.wsgi:application"]
+CMD ["gunicorn", "--workers=4", "--bind=0.0.0.0:8000", "--access-logfile=/var/log/gunicorn/access.log", "--error-logfile=/var/log/gunicorn/error.log", "backproject.wsgi:application"]
