@@ -6,7 +6,8 @@ RUN useradd -u "$DOCKER_UID" -U -s /bin/false -M appuser
 
 
 RUN mkdir -p /var/log/gunicorn && \
-    chown -R appuser:appuser /var/log/gunicorn
+    chown -R appuser:appuser /var/log/gunicorn && \
+    chmod -R 777 /var/log/gunicorn
 
 WORKDIR /app
 
