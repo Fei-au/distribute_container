@@ -27,3 +27,5 @@ EXPOSE 8000
 
 # CMD ["celery", "-A", "backproject", "worker", "--loglevel=info"]
 CMD ["gunicorn", "--workers=4", "--bind=0.0.0.0:8000", "backproject.wsgi:application"]
+
+# "--access-logfile=/var/log/gunicorn/access.log", "--error-logfile=/var/log/gunicorn/error.log", 

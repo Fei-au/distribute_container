@@ -193,10 +193,14 @@ LOGGING = {
             "class": "logging.FileHandler",
             "filename": "django.log",
             "mode": "a",
+            "formatter": "verbose",
         },
     },
-    "root": {
-        "handlers": ["file"],
-        "level": "INFO",
-    }
+    'loggers': {
+        'django': {
+            'handlers': ['file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
 }
