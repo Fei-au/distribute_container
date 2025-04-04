@@ -1,10 +1,8 @@
 FROM python:3.11-slim
 
-ARG DOCKER_UID=1000
-ARG DOCKER_GID=1000
+ARG DOCKER_UID=2000
 
-RUN groupadd -r appuser -g ${DOCKER_GID} && \
-    useradd -r -u ${DOCKER_UID} -g appuser -s /bin/false appuser
+RUN useradd -u "$DOCKER_UID" -U -s /bin/false -M appuser
 
 
 
