@@ -9,8 +9,7 @@ RUN groupadd -r appuser -g ${DOCKER_GID} && \
 
 
 RUN mkdir -p /var/log/gunicorn && \
-    chown -R appuser:appuser /var/log/gunicorn && \
-    chmod -R 777 /var/log/gunicorn
+    chown -R appuser:appuser /var/log/gunicorn
 
 WORKDIR /app
 
@@ -19,8 +18,10 @@ RUN chmod -R 777 /app
 
 # 需要root权限安装依赖
 RUN pip install -r requirements.txt
+# COPY entrypoint.sh /entrypoint.sh
+# RUN chmod +x /entrypoint.sh
 
-USER appuser
+# ENTRYPOINT ["/entrypoint.sh"]
 
 # 声明容器将监听的端口
 EXPOSE 8000

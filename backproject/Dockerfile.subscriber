@@ -9,7 +9,8 @@ RUN groupadd -r appuser -g ${DOCKER_GID} && \
 
 
 RUN mkdir -p /var/log/subscriber && \
-chown appuser:appuser /var/log/subscriber
+chown appuser:appuser /var/log/subscriber && \
+chmod -R 777 /var/log/subscriber
 
 WORKDIR /app
 
@@ -21,6 +22,9 @@ RUN pip install -r requirements.txt
 
 COPY --chown=appuser:appuser subscriber.conf .
 COPY --chown=appuser:appuser start.sh .
+RUN   chmod -R 777 /app
+USER appuser
+
 RUN dos2unix start.sh && chmod +x start.sh
 
 CMD ["/bin/bash", "start.sh"]
