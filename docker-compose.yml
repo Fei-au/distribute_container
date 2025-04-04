@@ -18,15 +18,13 @@ services:
     #   - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
     # volumes:
     #   - ./key.json:/app/key.json
-
-
     depends_on:
       redis:
         condition: service_started
       # rabbitmq:
       #   condition: service_healthy
-    # volumes:
-    #   - /var/log/gunicorn:/var/log/gunicorn
+    volumes:
+      - /var/log/gunicorn:/var/log/gunicorn
     networks:
       - app-network
 
@@ -45,8 +43,6 @@ services:
     #   - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
     # volumes:
     #   - ./key.json:/app/key.json
-
-
     depends_on:
       web:
         condition: service_started

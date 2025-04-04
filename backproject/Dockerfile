@@ -28,6 +28,6 @@ EXPOSE 8000
 # 修正 gunicorn 命令格式
 
 # CMD ["celery", "-A", "backproject", "worker", "--loglevel=info"]
-CMD ["gunicorn", "--workers=4", "--bind=0.0.0.0:8000", "backproject.wsgi:application"]
+CMD ["gunicorn", "--workers=4", "--bind=0.0.0.0:8000", "--access-logfile=/var/log/gunicorn/access.log", "--error-logfile=/var/log/gunicorn/error.log", "backproject.wsgi:application"]
 
-# "--access-logfile=/var/log/gunicorn/access.log", "--error-logfile=/var/log/gunicorn/error.log", 
+# 
