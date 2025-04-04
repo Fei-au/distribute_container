@@ -1,0 +1,18 @@
+INFO 2025-04-04 03:34:41,620 autoreload Watching for file changes with StatReloader
+ERROR 2025-04-04 03:34:44,553 exception Invalid HTTP_HOST header: '127.0.0.1:8000'. You may need to add '127.0.0.1' to ALLOWED_HOSTS.
+WARNING 2025-04-04 03:34:44,572 log Bad Request: /
+WARNING 2025-04-04 03:34:44,572 basehttp "GET / HTTP/1.1" 400 73788
+ERROR 2025-04-04 03:34:44,811 exception Invalid HTTP_HOST header: '127.0.0.1:8000'. You may need to add '127.0.0.1' to ALLOWED_HOSTS.
+WARNING 2025-04-04 03:34:44,828 log Bad Request: /favicon.ico
+WARNING 2025-04-04 03:34:44,832 basehttp "GET /favicon.ico HTTP/1.1" 400 73713
+ERROR 2025-04-04 03:34:47,334 exception Invalid HTTP_HOST header: '127.0.0.1:8000'. You may need to add '127.0.0.1' to ALLOWED_HOSTS.
+WARNING 2025-04-04 03:34:47,343 log Bad Request: /
+WARNING 2025-04-04 03:34:47,343 basehttp "GET / HTTP/1.1" 400 73788
+ERROR 2025-04-04 03:34:47,415 exception Invalid HTTP_HOST header: '127.0.0.1:8000'. You may need to add '127.0.0.1' to ALLOWED_HOSTS.
+WARNING 2025-04-04 03:34:47,425 log Bad Request: /favicon.ico
+WARNING 2025-04-04 03:34:47,425 basehttp "GET /favicon.ico HTTP/1.1" 400 73713
+INFO 2025-04-04 03:34:59,021 autoreload /home/fei/code/distribute_container/backproject/backproject/settings.py changed, reloading.
+INFO 2025-04-04 03:34:59,307 autoreload Watching for file changes with StatReloader
+INFO 2025-04-04 03:35:03,215 basehttp "GET / HTTP/1.1" 200 12
+WARNING 2025-04-04 03:35:03,293 log Not Found: /favicon.ico
+WARNING 2025-04-04 03:35:03,294 basehttp "GET /favicon.ico HTTP/1.1" 404 2321

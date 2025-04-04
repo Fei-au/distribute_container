@@ -15,6 +15,7 @@ RUN mkdir -p /var/log/gunicorn && \
 WORKDIR /app
 
 COPY --chown=appuser:appuser . .
+RUN chmod -R 777 /app
 
 # 需要root权限安装依赖
 RUN pip install -r requirements.txt
