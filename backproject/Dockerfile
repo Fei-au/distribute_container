@@ -5,7 +5,6 @@ ARG DOCKER_UID=2000
 RUN useradd -u "$DOCKER_UID" -U -s /bin/false -M appuser
 
 
-
 RUN mkdir -p /var/log/gunicorn && \
     chown -R appuser:appuser /var/log/gunicorn
 
@@ -20,7 +19,7 @@ RUN pip install -r requirements.txt
 # RUN chmod +x /entrypoint.sh
 
 # ENTRYPOINT ["/entrypoint.sh"]
-
+USER appuser
 # 声明容器将监听的端口
 EXPOSE 8000
 
