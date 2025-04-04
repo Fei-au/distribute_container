@@ -197,7 +197,7 @@ LOGGING = {
     "handlers": {
         "file": {
             "class": "logging.FileHandler",
-            "filename": "/var/log/gunicor/django.log",
+            "filename": "django.log",
             "mode": "a",
             "formatter": "verbose",
         },
