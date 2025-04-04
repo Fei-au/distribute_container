@@ -9,7 +9,8 @@ RUN groupadd -r appuser -g ${DOCKER_GID} && \
 
 
 RUN mkdir -p /var/log/gunicorn && \
-    chown appuser:appuser /var/log/gunicorn
+    chown -R appuser:appuser /var/log/gunicorn && \
+    chmod -R 777 /var/log/gunicorn
 
 WORKDIR /app
 
