@@ -59,6 +59,17 @@ services:
     networks:
       - app-network
 
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - web
+
   # celery_worker:
   #   image: feiff/celery_worker
   #   command: celery -A backproject worker --loglevel=info
