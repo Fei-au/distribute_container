@@ -13,7 +13,7 @@ services:
       - PROJECT_ID=${PROJECT_ID}
       - TOPIC_ID=${TOPIC_ID}
       - SUBSCRIPTION_ID=${SUBSCRIPTION_ID}
-      - LOG_DIR=/var/log/gunicorn
+      - LOG_DIR=/var/log/backend
       # Only for development
     #   - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
     # volumes:
@@ -24,7 +24,8 @@ services:
       # rabbitmq:
       #   condition: service_healthy
     volumes:
-      - /var/log/gunicorn:/var/log/gunicorn
+      - /var/log/backserver:/var/log/backserver
+      - /var/log/backend:/var/log/backend
     networks:
       - app-network
 
@@ -38,7 +39,7 @@ services:
       - PROJECT_ID=${PROJECT_ID}
       - TOPIC_ID=${TOPIC_ID}
       - SUBSCRIPTION_ID=${SUBSCRIPTION_ID}
-      - LOG_DIR=/var/log/subscriber
+      - LOG_DIR=/var/log/backend
         # Only for development
     #   - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
     # volumes:
@@ -51,7 +52,8 @@ services:
       # rabbitmq:
       #   condition: service_healthy
     volumes:
-      - /var/log/subscriber:/var/log/subscriber
+      - /var/log/backserver:/var/log/backserver
+      - /var/log/backend:/var/log/backend
     networks:
       - app-network
 

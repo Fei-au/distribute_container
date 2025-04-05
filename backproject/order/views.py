@@ -6,7 +6,10 @@ import os
 from order.tasks import send_email
 from pubsub.pub import publish_messages
 import json
+import logging
 
+
+logger = logging.getLogger('django')
 
 PUBLISHER_ID = os.getenv('PUBLISHER_ID', 'publisher1')
 
@@ -20,11 +23,13 @@ def order(request):
 
 def order_list(request):
     l = cache.get('order_list')
+    logger.info(f"Order list: {l}")
     return HttpResponse(f"Order list: {l}")
 
 def order_detail(request, order_id):
     data = cache.get(str(order_id))
     if data is None:
+        logger.error(f"Order {order_id} not found")
         return HttpResponse("Order not found")
     return HttpResponse(f"Order {order_id}: name={data['name']}, item={data['item']}")
 
@@ -47,6 +52,7 @@ def add_order(request):
     l.append(uid)
     cache.set('order_list', json.dumps(l), 60*60*24)
     # send_email.delay(uid, f"Order {uid} added")
+    logger.info(f"Order {uid} added")
     publish_messages(PUBLISHER_ID, uid, f"Order {uid} added")
     return HttpResponse(f"Order added with ID: {uid}")
 
@@ -60,7 +66,9 @@ def delete_order(request):
         l.remove(uid)
         cache.set('order_list', json.dumps(l), 60*60*24)
     else:
+        logger.error(f"Order {uid} not found")
         return HttpResponse("Delete order not found")
+    logger.info(f"Order {uid} deleted")
     publish_messages(PUBLISHER_ID, uid, f"Order {uid} deleted")
     return HttpResponse("Order deleted")
 
@@ -79,5 +87,6 @@ def update_order(request):
     }
     cache.set(uid, json.dumps(data), 60*60*24)
     # send_email.delay(uid, f"Order {uid} updated")
+    logger.info(f"Order {uid} updated")
     publish_messages(PUBLISHER_ID, uid, f"Order {uid} updated")
     return HttpResponse("Order updated")

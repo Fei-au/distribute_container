@@ -5,7 +5,7 @@ import time
 import os
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('pubsub')
 
 project_id = os.getenv('PROJECT_ID')
 topic_id = os.getenv('TOPIC_ID')

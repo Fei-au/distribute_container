@@ -191,6 +191,10 @@ LOGGING = {
     "disable_existing_loggers": False,
     "formatters": {
         "verbose": {
+            "format": "{levelname} {asctime} {module} {funcName} {lineno} {message}",  
+            "style": "{",
+        },
+        "simple": {
             "format": "{levelname} {asctime} {module} {message}",
             "style": "{",
         },
@@ -202,10 +206,21 @@ LOGGING = {
             "mode": "a",
             "formatter": "verbose",
         },
+        'file_pubsub': {
+            'class': 'logging.FileHandler',
+            'filename': f"{LOG_DIR}/pubsub.log",
+            'mode': 'a',
+            'formatter': 'simple',
+        },
     },
     "loggers": {
         "django": {
             "handlers": ["file"],
+            "level": "INFO",
+            "propagate": True,
+        },
+        "pubsub": {
+            "handlers": ["file_pubsub"],
             "level": "INFO",
             "propagate": True,
         },

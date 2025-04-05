@@ -5,9 +5,13 @@ ARG DOCKER_UID=2000
 RUN useradd -u "$DOCKER_UID" -U -s /bin/false -M appuser
 
 
-RUN mkdir -p /var/log/gunicorn && \
-    chown -R appuser:appuser /var/log/gunicorn && \
-    chmod -R 777 /var/log/gunicorn
+RUN mkdir -p /var/log/backserver && \
+    chown -R appuser:appuser /var/log/backserver && \
+    chmod -R 777 /var/log/backserver
+
+RUN mkdir -p /var/log/backend && \
+    chown -R appuser:appuser /var/log/backend && \
+    chmod -R 777 /var/log/backend
 
 WORKDIR /app
 
