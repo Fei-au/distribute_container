@@ -7,16 +7,16 @@ RUN useradd -u "$DOCKER_UID" -U -s /bin/false -M appuser
 
 RUN mkdir -p /var/log/backserver && \
     chown -R appuser:appuser /var/log/backserver && \
-    chmod -R 777 /var/log/backserver
+    chmod -R 755 /var/log/backserver
 
 RUN mkdir -p /var/log/backend && \
     chown -R appuser:appuser /var/log/backend && \
-    chmod -R 777 /var/log/backend
+    chmod -R 755 /var/log/backend
 
 WORKDIR /app
 
 COPY --chown=appuser:appuser . .
-RUN chmod -R 777 /app
+RUN chmod -R 755 /app
 
 # 需要root权限安装依赖
 RUN pip install -r requirements.txt
@@ -31,6 +31,6 @@ EXPOSE 8000
 # 修正 gunicorn 命令格式
 
 # CMD ["celery", "-A", "backproject", "worker", "--loglevel=info"]
-CMD ["gunicorn", "--workers=4", "--bind=0.0.0.0:8000", "--log-level=info", "--log-file=/var/log/gunicorn/gunicorn.log", "backproject.wsgi:application"]
+CMD ["gunicorn", "--workers=4", "--bind=0.0.0.0:8000", "--log-level=info", "--error-logfile=/var/log/backserver/gunicorn_error.log", "--access-logfile=/var/log/backserver/gunicorn_access.log", "backproject.wsgi:application"]
 
 # 

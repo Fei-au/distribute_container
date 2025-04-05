@@ -8,11 +8,11 @@ RUN useradd -u "$DOCKER_UID" -U -s /bin/false -M appuser
 
 RUN mkdir -p /var/log/backserver && \
 chown appuser:appuser /var/log/backserver && \
-chmod -R 777 /var/log/backserver
+chmod -R 755 /var/log/backserver
 
 RUN mkdir -p /var/log/backend && \
     chown -R appuser:appuser /var/log/backend && \
-    chmod -R 777 /var/log/backend
+    chmod -R 755 /var/log/backend
 
 WORKDIR /app
 
@@ -24,10 +24,10 @@ RUN pip install -r requirements.txt
 
 COPY --chown=appuser:appuser subscriber.conf .
 COPY --chown=appuser:appuser start.sh .
-RUN   chmod -R 777 /app
+RUN   chmod -R 755 /app
 USER appuser
 
-RUN dos2unix start.sh && chmod +x start.sh
+# RUN dos2unix start.sh && chmod +x start.sh
 
 CMD ["/bin/bash", "start.sh"]
 
