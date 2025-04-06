@@ -122,6 +122,6 @@ networks:
   app-network:
     driver: bridge
 
-volumes:
+# volumes:
   # redis-data:
   # rabbitmq-data:
