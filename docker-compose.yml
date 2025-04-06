@@ -18,7 +18,7 @@ services:
     #   - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
     # volumes:
     #   - ./key.json:/app/key.json
-    depends_on:
+    # depends_on:
       # redis:
       #   condition: service_started
       # rabbitmq:
