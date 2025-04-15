@@ -5,7 +5,7 @@ class Command(BaseCommand):
     help = 'Runs the PubSub subscriber'
 
     def add_arguments(self, parser):
-        parser.add_argument('subscriber_id', type=str)
+        parser.add_argument('--subscriber-id', type=str, required=True)
         parser.add_argument('--timeout', type=float, default=None)
 
     def handle(self, *args, **options):

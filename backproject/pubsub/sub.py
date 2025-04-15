@@ -11,7 +11,7 @@ logger = logging.getLogger('pubsub')
 
 project_id = os.getenv('PROJECT_ID')
 topic_id = os.getenv('TOPIC_ID')
-subscription_id = os.getenv('SUBSCRIPTION_ID')
+subscription_id = os.getenv('SUBSCRIPTION_ID', '1')
 
 def receive_messages(subscriber_id: str, timeout: float):
     subscriber = pubsub_v1.SubscriberClient()
@@ -27,13 +27,16 @@ def receive_messages(subscriber_id: str, timeout: float):
             }
         '''
         data = message.data.decode('utf-8')
-        l = cache.get(subscriber_id)
-        if l is None:
-            l = []
-        else:
-            l = json.loads(l)
-        l.append(f"subscriber {subscriber_id}, Data: {data}")
-        cache.set(subscriber_id, json.dumps(l), 60*60*24)  # 1 day1 (in seconds l)
+        key = f'subscriber_id{subscriber_id}'
+        # l = cache.get(key)
+        # if l is None:
+        #     l = []
+        # else:
+        #     l = json.loads(l)
+        # l.append(f"subscriber {subscriber_id}, Data: {data}")
+        # cache.set(key, json.dumps(l), 60*60*24)  # 1 day1 (in seconds l)
+        # logger.info("Received message successfully")
+        save_messages(key, data)
         logger.info("Received message successfully")
         message.ack()
 
@@ -47,6 +50,14 @@ def receive_messages(subscriber_id: str, timeout: float):
             streaming_pull_future.cancel()
             streaming_pull_future.result()
             
+def save_messages(key: str, data: str, ):
+        l = cache.get(key)
+        if l is None:
+            l = []
+        else:
+            l = json.loads(l)
+        l.append(f"{key}, Data: {data}")
+        cache.set(key, json.dumps(l), 60*60*24)  # 1 day1 (in seconds l)
 
 # def receive_messages():
 #     # 创建两个subscriber线程

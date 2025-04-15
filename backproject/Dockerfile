@@ -29,8 +29,9 @@ USER appuser
 EXPOSE 8000
 
 # 修正 gunicorn 命令格式
-
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 # CMD ["celery", "-A", "backproject", "worker", "--loglevel=info"]
-CMD ["gunicorn", "--workers=4", "--bind=0.0.0.0:8000", "--log-level=info", "--error-logfile=/var/log/backserver/gunicorn_error.log", "--access-logfile=/var/log/backserver/gunicorn_access.log", "backproject.wsgi:application"]
+# CMD ["gunicorn", "--workers=4", "--bind=0.0.0.0:8000", "--log-level=info", "--error-logfile=/var/log/backserver/gunicorn_error.log", "--access-logfile=/var/log/backserver/gunicorn_access.log", "backproject.wsgi:application"]
+CMD ["gunicorn", "--workers=4", "--bind=0.0.0.0:8000", "--log-level=info", "--access-logfile", "-", "--error-logfile", "-", "backproject.wsgi:application"]
 
 # 

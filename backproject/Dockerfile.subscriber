@@ -28,6 +28,7 @@ RUN   chmod -R 755 /app
 USER appuser
 
 # RUN dos2unix start.sh && chmod +x start.sh
-
-CMD ["/bin/bash", "start.sh"]
+# manage.py run_subscriber subscriber_id=1
+CMD ["python", "manage.py", "run_subscriber", "--subscriber-id=1"]
+# CMD ["/bin/bash", "start.sh"]
 

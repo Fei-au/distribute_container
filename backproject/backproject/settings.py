@@ -61,7 +61,7 @@ SECRET_KEY = "django-insecure-k%$-!z(y-gqi(!jvb9%0$(f-$5u2q%82h_&n2@t2s4pbtqkt&_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["35.238.53.161", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["35.238.53.161", "127.0.0.1", "localhost", '.run.app', 'ffac.online']
 
 
 # Application definition
@@ -90,8 +90,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = "backproject.urls"
 
 TEMPLATES = [
-    {
-        "BACKEND": "django.template.backends.django.DjangoTemplates",
+    {        "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -163,12 +162,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REDIS_HOST=os.getenv("REDIS_HOST")
 REDIS_PORT=os.getenv("REDIS_PORT")
+REDIS_USER=os.getenv("REDIS_USER")
+REDIS_PASSWORD=os.getenv("REDIS_PASSWORD")
 print(f"REDIS_HOST: {REDIS_HOST}")
 print(f"REDIS_PORT: {REDIS_PORT}")
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}',
+        'LOCATION': f'redis://{REDIS_USER}:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
             'RETRY_ON_TIMEOUT': True,
@@ -200,27 +201,32 @@ LOGGING = {
         },
     },
     "handlers": {
-        "file": {
-            "class": "logging.FileHandler",
-            "filename": f"{LOG_DIR}/django.log",
-            "mode": "a",
-            "formatter": "verbose",
-        },
-        'file_pubsub': {
-            'class': 'logging.FileHandler',
-            'filename': f"{LOG_DIR}/pubsub.log",
-            'mode': 'a',
-            'formatter': 'simple',
+        # "file": {
+        #     "class": "logging.FileHandler",
+        #     "filename": f"{LOG_DIR}/django.log",
+        #     "mode": "a",
+        #     "formatter": "verbose",
+        # },
+        # 'file_pubsub': {
+        #     'class': 'logging.FileHandler',
+        #     'filename': f"{LOG_DIR}/pubsub.log",
+        #     'mode': 'a',
+        #     'formatter': 'simple',
+        # },
+        "console": {
+            "class": "logging.StreamHandler",
         },
     },
     "loggers": {
         "django": {
-            "handlers": ["file"],
+            # "handlers": ["file"],
+            "handlers": ["console"],
             "level": "INFO",
             "propagate": True,
         },
         "pubsub": {
-            "handlers": ["file_pubsub"],
+            # "handlers": ["file_pubsub"],
+            "handlers": ["console"],
             "level": "INFO",
             "propagate": True,
         },
