@@ -1,6 +1,6 @@
 # Container connection, distribute to multiple vms
 
-Deploy to aws
+## Deploy to aws
 1. Backend
 2. Async task
 3. Database
@@ -16,12 +16,12 @@ Deploy to aws
 13. Kubernates
 
 
-Already deployed on gcp (gcp branch):
+## Already deployed on gcp (gcp branch):
 1. Backend: gcloud run service
    **gcloud run service** only suitable with http request, the container listen to some port and deal with http request. **Automatic scale**
 2. Async task:
-   1. using **push** method to do task, which is normal post call to the backend, so using **gcloud run service**, **Automatic scale**
-   2. **compute engine** run **pull** method, need scale manully.
+     1. using **push** method to do task, which is normal post call to the backend, so using **gcloud run service**, **Automatic scale**
+     2. **compute engine** run **pull** method, need scale manully.
 3. Database:
    **Redis** as database, using **gcloud MemoryStore**, this one is expensive, change to **redis cloud**, which has free tier
 4. Message Queue:
@@ -39,22 +39,22 @@ Already deployed on gcp (gcp branch):
 10. Image and container
    Using **Artificial Registry** for better integration with **cloud run**. Build image locally, tag specific tag, and push to **gcloud repo**
 11. **VPC netrworks**
-   1. Keep **static ip** for load balacing, so domain's a tag can point to ip address
-   2. Create a subnet for services to include load balancer. Cloud run service can set up a bridge to connect with the subnet 
-   3. If using cloud database like mysql, we can make it only open access within subnet for security.
-   4. If using compute engine, the subnet connection also works very good
+     1. Keep **static ip** for load balacing, so domain's a tag can point to ip address
+     2. Create a subnet for services to include load balancer. Cloud run service can set up a bridge to connect with the subnet 
+     3. If using cloud database like mysql, we can make it only open access within subnet for security.
+     4. If using compute engine, the subnet connection also works very good
 11. User management and service management
-   1. If having compute engines to manage, we need **IAM & Admin** to create users, and give them specific access to services. So they can only access these services, for better security.
-   2. When **create compute engine**, we can make the compute engine to access specific services.
-   3. When a service that run on compute engine, needs to access specific cloud service, an access token is needed so the service have access to cloud services.
-      Access token is belong to an IAM user, only the user has specific authorities, services started by the user will have same authorities.
-   4. cloud run does not need this user management.
+     1. If having compute engines to manage, we need **IAM & Admin** to create users, and give them specific access to services. So they can only access these services, for better security.
+     2. When **create compute engine**, we can make the compute engine to access specific services.
+     3. When a service that run on compute engine, needs to access specific cloud service, an access token is needed so the service have access to cloud services.
+        Access token is belong to an IAM user, only the user has specific authorities, services started by the user will have same authorities.
+     4. cloud run does not need this user management.
 12. compute engine
-    self managed vm. pull code, run all above serivces on the vm
-    1. vm has an cloud user, so it has specific accesses.
-    2. vm group is an auto scaled solution, scaled more vms when certain vm cannot do tasks properly or shrink when fewer tasks are there.
-       It needs a startup script to run the service from scrach, like from a very clean vm. So the script mainly do env config, libraries download, code pull, service setup.
-       And those services running in vm group should be stateless, so if an vm is closed, the data is still safe
+      self managed vm. pull code, run all above serivces on the vm
+      1. vm has an cloud user, so it has specific accesses.
+      2. vm group is an auto scaled solution, scaled more vms when certain vm cannot do tasks properly or shrink when fewer tasks are there.
+         It needs a startup script to run the service from scrach, like from a very clean vm. So the script mainly do env config, libraries download, code pull, service setup.
+         And those services running in vm group should be stateless, so if an vm is closed, the data is still safe
 13. kubernates 
    
      
