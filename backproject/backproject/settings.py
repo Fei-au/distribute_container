@@ -42,11 +42,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 #     # 打印读取.env后的环境变量
 #     # print_env_vars("After reading .env")
 
-PROJECT_ID=os.getenv("PROJECT_ID")
-TOPIC_ID=os.getenv("TOPIC_ID")
-SUBSCRIPTION_ID=os.getenv("SUBSCRIPTION_ID")
+REDIS_USER=os.getenv("REDIS_USER")
+REDIS_PASSWORD=os.getenv("REDIS_PASSWORD")
 REDIS_HOST=os.getenv("REDIS_HOST")
 REDIS_PORT=os.getenv("REDIS_PORT")
+
 RABBIT_HOST=os.getenv("RABBIT_HOST")
 RABBIT_PORT=os.getenv("RABBIT_PORT")
 RABBIT_ACCOUNT=os.getenv("RABBIT_ACCOUNT")
@@ -160,12 +160,6 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-REDIS_HOST=os.getenv("REDIS_HOST")
-REDIS_PORT=os.getenv("REDIS_PORT")
-REDIS_USER=os.getenv("REDIS_USER")
-REDIS_PASSWORD=os.getenv("REDIS_PASSWORD")
-print(f"REDIS_HOST: {REDIS_HOST}")
-print(f"REDIS_PORT: {REDIS_PORT}")
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',

@@ -9,7 +9,7 @@ logger = logging.getLogger('pubsub')
 
 project_id = os.getenv('PROJECT_ID')
 topic_id = os.getenv('TOPIC_ID')
-subscription_id = os.getenv('SUBSCRIPTION_ID')
+
 def publish_messages(publisher_id: str, uid, content):
     publisher = pubsub_v1.PublisherClient()
     # The `topic_path` method creates a fully qualified identifier
@@ -32,5 +32,5 @@ def publish_messages(publisher_id: str, uid, content):
     else:
         l = json.loads(l)
     l.append(f"Published {pub_res_id}:  {data_str} on {topic_path} at {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}")
-    cache.set(publisher_id, json.dumps(l), 60*60*24)  # 1 day1 (in seconds)l)
+    cache.set(publisher_id, json.dumps(l), 60*60*2)  # 2 hours (in seconds)
     logger.info(f"Published message successfully: {uid}")

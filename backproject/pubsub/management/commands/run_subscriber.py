@@ -1,11 +1,12 @@
 from django.core.management.base import BaseCommand
 from pubsub.sub import receive_messages
 
+
 class Command(BaseCommand):
     help = 'Runs the PubSub subscriber'
 
     def add_arguments(self, parser):
-        parser.add_argument('--subscriber-id', type=str, required=True)
+        parser.add_argument('--subscriber-id', type=str, required=True) # subscriber-id will become subscriber_id based on python standard
         parser.add_argument('--timeout', type=float, default=None)
 
     def handle(self, *args, **options):

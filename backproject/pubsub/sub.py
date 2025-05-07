@@ -10,12 +10,11 @@ logger = logging.getLogger('pubsub')
 
 
 project_id = os.getenv('PROJECT_ID')
-topic_id = os.getenv('TOPIC_ID')
-subscription_id = os.getenv('SUBSCRIPTION_ID', '1')
+pubsub_subscription_id = os.getenv('PUBSUB_SUBSCRIPTION_ID')
 
 def receive_messages(subscriber_id: str, timeout: float):
     subscriber = pubsub_v1.SubscriberClient()
-    subscription_path = subscriber.subscription_path(project_id, subscription_id)
+    subscription_path = subscriber.subscription_path(project_id, pubsub_subscription_id)
 
     def callback(message: pubsub_v1.subscriber.message.Message) -> None:
         # Pretend to process the message.
@@ -27,7 +26,7 @@ def receive_messages(subscriber_id: str, timeout: float):
             }
         '''
         data = message.data.decode('utf-8')
-        key = f'subscriber_id{subscriber_id}'
+        key = f'{subscriber_id}'
         # l = cache.get(key)
         # if l is None:
         #     l = []

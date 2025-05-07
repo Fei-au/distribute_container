@@ -24,7 +24,7 @@ def sub_push(request):
         if data:
             decoded = base64.b64decode(data).decode("utf-8")
             logger.info(f"Pub/Sub message received")
-            key = f'subscriber_id{subscriber_id}'
+            key = f'{subscriber_id}'
             save_messages(key, decoded)
         else:
             logger("Received message with no data")
