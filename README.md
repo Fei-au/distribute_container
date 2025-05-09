@@ -13,8 +13,8 @@
 10. Subnet management
 11. User management
 12. VM play
-    EC2, Debian VM
-    - deployed container services including django, subscriber, nginx within docker compose
+    1. EC2, Debian VM
+        - deployed container services including django, subscriber, nginx within docker compose
 14. Kubernates
 
 
