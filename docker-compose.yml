@@ -1,45 +1,47 @@
 services:
   web:
-    image: feiff/bkproj
+    image: feiff/bkproj:5.11
     ports:
       - "8000:8000"
-    # env_file:
-    #   - .env
-    environment:
-      - REDIS_HOST=${REDIS_HOST}
-      - REDIS_PORT=${REDIS_PORT}
-      # - RABBIT_HOST=${RABBIT_HOST}
-      # - RABBIT_PORT=${RABBIT_PORT}
-      - PROJECT_ID=${PROJECT_ID}
-      - TOPIC_ID=${TOPIC_ID}
-      - SUBSCRIPTION_ID=${SUBSCRIPTION_ID}
-      - LOG_DIR=/var/log/backend
+    env_file:
+      - .env
+    # environment:
+    #   - REDIS_HOST=${REDIS_HOST}
+    #   - REDIS_PORT=${REDIS_PORT}
+    #   # - RABBIT_HOST=${RABBIT_HOST}
+    #   # - RABBIT_PORT=${RABBIT_PORT}
+    #   - PROJECT_ID=${PROJECT_ID}
+    #   - TOPIC_ID=${TOPIC_ID}
+    #   - SUBSCRIPTION_ID=${SUBSCRIPTION_ID}
+      # - LOG_DIR=/var/log/backend
       # Only for development
     #   - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
-    # volumes:
-    #   - ./key.json:/app/key.json
+    volumes:
+      - ./key.json:/app/key.json
     # depends_on:
       # redis:
       #   condition: service_started
       # rabbitmq:
       #   condition: service_healthy
-    volumes:
-      - /var/log/backserver:/var/log/backserver
-      - /var/log/backend:/var/log/backend
+    # volumes:
+    #   - /var/log/backserver:/var/log/backserver
+    #   - /var/log/backend:/var/log/backend
     networks:
       - app-network
 
   subscriber:
-    image: feiff/subscriber
-    environment:
-      - REDIS_HOST=${REDIS_HOST}
-      - REDIS_PORT=${REDIS_PORT}
-      # - RABBIT_HOST=${RABBIT_HOST}
-      # - RABBIT_PORT=${RABBIT_PORT}
-      - PROJECT_ID=${PROJECT_ID}
-      - TOPIC_ID=${TOPIC_ID}
-      - SUBSCRIPTION_ID=${SUBSCRIPTION_ID}
-      - LOG_DIR=/var/log/backend
+    image: feiff/subscriber:sh
+    env_file:
+      - .env
+    # environment:
+    #   - REDIS_HOST=${REDIS_HOST}
+    #   - REDIS_PORT=${REDIS_PORT}
+    #   # - RABBIT_HOST=${RABBIT_HOST}
+    #   # - RABBIT_PORT=${RABBIT_PORT}
+    #   - PROJECT_ID=${PROJECT_ID}
+    #   - TOPIC_ID=${TOPIC_ID}
+    #   - SUBSCRIPTION_ID=${SUBSCRIPTION_ID}
+    #   - LOG_DIR=/var/log/backend
         # Only for development
     #   - GOOGLE_APPLICATION_CREDENTIALS=/app/key.json
     # volumes:
@@ -52,8 +54,10 @@ services:
       # rabbitmq:
       #   condition: service_healthy
     volumes:
-      - /var/log/backserver:/var/log/backserver
-      - /var/log/backend:/var/log/backend
+      - ./key.json:/app/key.json
+    # volumes:
+    #   - /var/log/backserver:/var/log/backserver
+    #   - /var/log/backend:/var/log/backend
     networks:
       - app-network
 
