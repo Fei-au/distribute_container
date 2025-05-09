@@ -13,7 +13,9 @@
 10. Subnet management
 11. User management
 12. VM play
-13. Kubernates
+    EC2, Debian VM
+    - deployed container services including django, subscriber, nginx within docker compose
+14. Kubernates
 
 
 ## Already deployed on gcp (gcp branch):
