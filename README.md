@@ -2,17 +2,18 @@
 
 ## Deploy to aws
 1. Backend
-2. Async task
-3. Database
-4. Message Queue
-5. Proxy
-6. CDN
-7. Static resources
-8. Log
-9. Image and container
-10. Subnet management
-11. User management
-12. VM play
+   mangus
+3. Async task
+4. Database
+5. Message Queue
+6. Proxy
+7. CDN
+8. Static resources
+9. Log
+10. Image and container
+11. Subnet management
+12. User management
+13. VM play
     1. EC2, Debian VM
         - deployed container services including django, subscriber, nginx within docker compose
 14. Kubernates
