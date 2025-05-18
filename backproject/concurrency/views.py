@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import time
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseServerError
 import os
 import requests
 import httpx
@@ -15,7 +15,7 @@ def testcpu(request):
     pid = os.getpid()
     count = 0
     start = time.time()
-    for i in range(100000):
+    for i in range(10000000):
         count += 1
     end = time.time()
     if not request_count.get('pid'):
@@ -27,7 +27,13 @@ def testcpu(request):
 
 def testio(request):
     pid = os.getpid()
-    response = requests.get("https://httpbin.org/delay/5")
+    response = requests.get("https://httpbin.org/delay/1")
+    start = time.time()
+    if not request_count.get('pid'):
+        request_count[pid] = 1
+    else:
+        request_count[pid] += 1
+    end = time.time()
     if not request_count.get('pid'):
         request_count[pid] = 1
     else:
@@ -38,7 +44,7 @@ async def testasynccpu(request):
     pid = os.getpid()
     count = 0
     start = time.time()
-    for i in range(100000):
+    for i in range(10000000):
         count += 1
     end = time.time()
     if not request_count.get('pid'):
@@ -50,7 +56,8 @@ async def testasynccpu(request):
 
 async def testasyncio(request):
     try:
-        url = "https://httpbin.org/delay/5"  # responds after 5 seconds
+        pid = os.getpid()
+        url = "https://httpbin.org/delay/1"  # responds after 5 seconds
         start = time.time()
         async with httpx.AsyncClient(timeout=httpx.Timeout(10.0)) as client:
             response = await client.get(url)

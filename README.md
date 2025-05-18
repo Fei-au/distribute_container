@@ -60,4 +60,11 @@
          And those services running in vm group should be stateless, so if an vm is closed, the data is still safe
 13. kubernates 
    
-     
+
+## Test concurrency
+## Run gunicorn sync
+`gunicorn backproject:backproject.asgi worker -1`
+`gunicorn backproject:backproject.asgi worker -3`
+## Run uvicorn on gunicorn async
+`gunicorn backproject:backproject.asgi -k uvicorn.workers.UvicornWorker -w 1`
+`gunicorn backproject:backproject.asgi -k uvicorn.workers.UvicornWorker -w 3`
