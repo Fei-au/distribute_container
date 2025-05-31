@@ -2,7 +2,13 @@
 
 ## Deploy to aws
 1. Backend
-   mangus
+   convert project into aws lambda acceptable files
+      - Mangum for asgi
+      - Zappa for wsgi
+      But may not very good, cause this will make the whole project as a single lambda function, and after add one api gateway, all request just go to this single lambda, which do the route, validation, handling and more. This may obey the lambda original design.
+
+      instead, create a new stateless project that utilize api gateway and lambda, with common codes layer and cicd to deploy different lambdas
+
 3. Async task
 4. Database
 5. Message Queue
